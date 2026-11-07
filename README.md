@@ -172,6 +172,10 @@ For deployment to **aggrex.howeyhost.com** on a CloudCone VPS, see the
 [VPS deployment guide](deploy/README.md). It covers DNS, Nginx, HTTPS, systemd,
 OAuth, and persistent SQLite backups.
 
+For an alternative scripted setup using Caddy instead of Nginx, see
+[DEPLOY.md](DEPLOY.md). One script sets up Node, Caddy (HTTPS), systemd,
+the firewall and backups. Choose one reverse proxy setup, not both.
+
 ```bash
 npm run build
 ```

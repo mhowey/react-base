@@ -1,0 +1,11 @@
+# Caddy reverse proxy with automatic HTTPS (Let's Encrypt). Placeholders are filled in by setup-server.sh.
+# To also serve www, change the first line to:  __DOMAIN__, www.__DOMAIN__ {
+
+__DOMAIN__ {
+	encode zstd gzip
+	reverse_proxy 127.0.0.1:__PORT__
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		-Server
+	}
+}

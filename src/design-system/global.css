@@ -1,0 +1,22 @@
+/* Global base styles. Component styling belongs in the theme or CSS modules. */
+html,
+body {
+  background: var(--app-bg);
+  color: var(--app-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+.text-gradient {
+  background: var(--app-hero-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Server-rendered crawler fallback (replaced by React on mount). */
+main[data-seo-fallback] {
+  max-width: 720px;
+  margin: 4rem auto;
+  padding: 0 1rem;
+  font-family: system-ui, sans-serif;
+}

@@ -1,54 +1,143 @@
-import { Card, Code, List, SimpleGrid, Stack, Text, Title } from '@mantine/core';
-import { PageHeader } from '@/design-system';
-import { Page } from '@/layouts/AppLayout';
+import {
+  Accordion,
+  Alert,
+  Card,
+  List,
+  SimpleGrid,
+  Stack,
+  Text,
+  Title,
+} from "@mantine/core";
+import {
+  IconInfoCircle,
+  IconRss,
+  IconScale,
+  IconWorld,
+} from "@tabler/icons-react";
+import { PageHeader } from "@/design-system";
+import { Page } from "@/layouts/AppLayout";
 
-const structure = [
-  ['src/design-system', 'Tokens, Mantine theme and shared components'],
-  ['src/pages', 'Route components (lazy loaded)'],
-  ['src/auth', 'AuthProvider, guards, provider icons'],
-  ['src/seo', '<Seo /> head manager'],
-  ['shared/seo.config.ts', 'Single source of SEO/AIO truth for client and server'],
-  ['shared/schema-types.ts', 'Types shared by the data builder UI and API'],
-  ['server/auth', 'Passport providers, JWT cookie sessions, guards'],
-  ['server/schema', 'Schema builder (DDL + metadata)'],
-  ['server/data', 'Metadata-driven CRUD with validation + access control'],
-  ['server/seo', 'HTML injection, sitemap, robots, llms.txt'],
-  ['prompt.md', 'Requirements + AI build prompt for your application'],
-  ['schema/app-schema.json', 'Version-controlled data model, applied additively on boot'],
+const steps = [
+  [
+    "1",
+    "Gather",
+    "Aggrex checks public RSS feeds from a curated mix of publishers.",
+  ],
+  [
+    "2",
+    "Explore",
+    "Filter the headline roundup by topic, publisher perspective, or a search term.",
+  ],
+  [
+    "3",
+    "Read original reporting",
+    "Open the publisher’s site for the complete article and its context.",
+  ],
 ];
 
 export default function About() {
   return (
     <Page size="lg">
-      <PageHeader eyebrow="About" title="How App Starter is put together" description="One repo, one process, one port — client and server share types and config." />
-      <SimpleGrid cols={{ base: 1, md: 2 }} spacing="lg">
-        <Card>
-          <Title order={4} mb="sm">
-            Project layout
-          </Title>
-          <Stack gap={8}>
-            {structure.map(([path, desc]) => (
-              <div key={path}>
-                <Code>{path}</Code>
-                <Text size="sm" c="dimmed">
-                  {desc}
+      <PageHeader
+        eyebrow="About Aggrex"
+        title="A wider view starts with better context."
+        description="News from across the spectrum, in one free reader. Follow the links to read every story where it was reported."
+      />
+      <SimpleGrid cols={{ base: 1, sm: 3 }} spacing="md" mb="xl">
+        {steps.map(([number, title, description], index) => {
+          const Icon = [IconRss, IconScale, IconWorld][index];
+          return (
+            <Card key={title} withBorder>
+              <Stack gap="sm">
+                <Icon size={24} aria-hidden="true" />
+                <Text size="xs" c="dimmed" fw={700} tt="uppercase">
+                  Step {number}
                 </Text>
-              </div>
-            ))}
-          </Stack>
-        </Card>
-        <Card>
-          <Title order={4} mb="sm">
-            Turning it into your app
+                <Title order={3} fz="lg">
+                  {title}
+                </Title>
+                <Text size="sm" c="dimmed">
+                  {description}
+                </Text>
+              </Stack>
+            </Card>
+          );
+        })}
+      </SimpleGrid>
+
+      <Alert
+        icon={<IconInfoCircle size={18} />}
+        title="About source-perspective labels"
+        mb="xl"
+      >
+        <Text size="sm">
+          Labels describe a publisher broadly; they do not rate an individual
+          article or tell you what to think. Editorial positions are complex and
+          can change over time, so use these labels only as a rough guide and
+          compare the reporting for yourself.
+        </Text>
+      </Alert>
+
+      <SimpleGrid cols={{ base: 1, md: 2 }} spacing="lg">
+        <Card withBorder>
+          <Title order={3} fz="lg" mb="sm">
+            What to expect
           </Title>
-          <List spacing="sm" type="ordered">
-            <List.Item>Fill in <Code>prompt.md</Code> with your product requirements.</List.Item>
-            <List.Item>Rebrand via <Code>src/design-system/tokens.ts</Code> and <Code>shared/seo.config.ts</Code>.</List.Item>
-            <List.Item>Add OAuth credentials to <Code>.env</Code>.</List.Item>
-            <List.Item>Model your data in the Data Builder, then export the schema to version control.</List.Item>
-            <List.Item>Build pages on top of <Code>/api/data/:table</Code> and the generated types.</List.Item>
-            <List.Item>Register each public page in <Code>seoRoutes</Code> so it is indexed and listed in llms.txt.</List.Item>
+          <List spacing="sm">
+            <List.Item>
+              Headlines and short excerpts come from publishers’ public RSS
+              feeds.
+            </List.Item>
+            <List.Item>
+              Stories link directly to the original publisher; Aggrex does not
+              republish full articles.
+            </List.Item>
+            <List.Item>
+              Feed availability and update timing depend on each publisher.
+            </List.Item>
+            <List.Item>
+              The core reading experience is free. Personalized feed controls
+              are planned, not available yet.
+            </List.Item>
           </List>
+        </Card>
+        <Card withBorder>
+          <Title order={3} fz="lg" mb="sm">
+            Common questions
+          </Title>
+          <Accordion variant="separated">
+            <Accordion.Item value="sources">
+              <Accordion.Control>How are sources selected?</Accordion.Control>
+              <Accordion.Panel>
+                <Text size="sm" c="dimmed">
+                  The initial roundup combines established international, U.S.,
+                  and business publishers. The list is curated to offer variety,
+                  not to claim that any source is perfectly neutral.
+                </Text>
+              </Accordion.Panel>
+            </Accordion.Item>
+            <Accordion.Item value="labels">
+              <Accordion.Control>
+                Are the perspective labels definitive?
+              </Accordion.Control>
+              <Accordion.Panel>
+                <Text size="sm" c="dimmed">
+                  No. They are broad source-level shorthand, not a scientific
+                  measurement or an assessment of an article. They should be
+                  reviewed regularly and improved with transparent references.
+                </Text>
+              </Accordion.Panel>
+            </Accordion.Item>
+            <Accordion.Item value="customize">
+              <Accordion.Control>Can I save a custom feed?</Accordion.Control>
+              <Accordion.Panel>
+                <Text size="sm" c="dimmed">
+                  Not in this first release. For now, use topic, perspective,
+                  and search filters to shape the current view.
+                </Text>
+              </Accordion.Panel>
+            </Accordion.Item>
+          </Accordion>
         </Card>
       </SimpleGrid>
     </Page>

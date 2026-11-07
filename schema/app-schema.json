@@ -1,4 +1,35 @@
 {
   "version": 1,
-  "tables": []
+  "tables": [
+    {
+      "name": "news_preferences",
+      "label": "News Preferences",
+      "description": "Private reader preferences such as favorited news sources.",
+      "readAccess": "admin",
+      "writeAccess": "admin",
+      "displayField": null,
+      "fields": [
+        {
+          "name": "user_id",
+          "label": "User",
+          "type": "relation",
+          "required": true,
+          "unique": true,
+          "defaultValue": null,
+          "options": { "relationTable": "users" },
+          "description": "The account these preferences belong to."
+        },
+        {
+          "name": "favorite_source_ids",
+          "label": "Favorite Source IDs",
+          "type": "json",
+          "required": true,
+          "unique": false,
+          "defaultValue": [],
+          "options": {},
+          "description": "Source IDs the reader has chosen to follow."
+        }
+      ]
+    }
+  ]
 }

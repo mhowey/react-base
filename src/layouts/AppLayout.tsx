@@ -1,29 +1,49 @@
-import { AppShell, Avatar, Burger, Button, Container, Divider, Group, Menu, NavLink, Stack, Text, UnstyledButton } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import {
+  AppShell,
+  Avatar,
+  Burger,
+  Button,
+  Container,
+  Divider,
+  Group,
+  Menu,
+  NavLink,
+  Stack,
+  Text,
+  UnstyledButton,
+} from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import {
   IconChevronDown,
   IconDashboard,
   IconDatabase,
   IconInfoCircle,
   IconLogout,
-  IconPalette,
   IconUser,
   IconUsers,
-} from '@tabler/icons-react';
-import { Suspense } from 'react';
-import { Link, NavLink as RouterNavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { useAuth } from '@/auth/AuthProvider';
-import { ColorSchemeToggle, Logo } from '@/design-system';
-import { Seo } from '@/seo/Seo';
+} from "@tabler/icons-react";
+import { Suspense } from "react";
+import {
+  Link,
+  NavLink as RouterNavLink,
+  Outlet,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
+import { useAuth } from "@/auth/AuthProvider";
+import { ColorSchemeToggle, Logo } from "@/design-system";
+import { Seo } from "@/seo/Seo";
 
 const publicLinks = [
-  { to: '/about', label: 'About', icon: IconInfoCircle },
-  { to: '/design-system', label: 'Design system', icon: IconPalette },
+  { to: "/", label: "Discover", icon: IconDashboard },
+  { to: "/about", label: "About", icon: IconInfoCircle },
 ];
-const appLinks = [{ to: '/dashboard', label: 'Dashboard', icon: IconDashboard }];
+const appLinks = [
+  { to: "/dashboard", label: "Dashboard", icon: IconDashboard },
+];
 const adminLinks = [
-  { to: '/admin/data', label: 'Data builder', icon: IconDatabase },
-  { to: '/admin/users', label: 'Users', icon: IconUsers },
+  { to: "/admin/data", label: "Data builder", icon: IconDatabase },
+  { to: "/admin/users", label: "Users", icon: IconUsers },
 ];
 
 export function AppLayout() {
@@ -31,16 +51,39 @@ export function AppLayout() {
   const { user, isAdmin, logout } = useAuth();
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const links = [...publicLinks, ...(user ? appLinks : []), ...(isAdmin ? adminLinks : [])];
+  const links = [
+    ...publicLinks,
+    ...(user ? appLinks : []),
+    ...(isAdmin ? adminLinks : []),
+  ];
 
   return (
-    <AppShell header={{ height: 64 }} navbar={{ width: 260, breakpoint: 'sm', collapsed: { desktop: true, mobile: !opened } }} padding={0}>
+    <AppShell
+      header={{ height: 64 }}
+      navbar={{
+        width: 260,
+        breakpoint: "sm",
+        collapsed: { desktop: true, mobile: !opened },
+      }}
+      padding={0}
+    >
       <Seo />
-      <AppShell.Header style={{ background: 'var(--app-surface)', borderColor: 'var(--app-border)' }}>
+      <AppShell.Header
+        style={{
+          background: "var(--app-surface)",
+          borderColor: "var(--app-border)",
+        }}
+      >
         <Container size="xl" h="100%">
           <Group h="100%" justify="space-between" wrap="nowrap">
             <Group gap="lg" wrap="nowrap">
-              <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" aria-label="Toggle navigation" />
+              <Burger
+                opened={opened}
+                onClick={toggle}
+                hiddenFrom="sm"
+                size="sm"
+                aria-label="Toggle navigation"
+              />
               <Logo />
               <Group gap={4} visibleFrom="sm">
                 {links.map((l) => (
@@ -48,8 +91,8 @@ export function AppLayout() {
                     key={l.to}
                     component={RouterNavLink}
                     to={l.to}
-                    variant={pathname.startsWith(l.to) ? 'light' : 'subtle'}
-                    color={pathname.startsWith(l.to) ? 'brand' : 'gray'}
+                    variant={pathname.startsWith(l.to) ? "light" : "subtle"}
+                    color={pathname.startsWith(l.to) ? "brand" : "gray"}
                     size="compact-md"
                   >
                     {l.label}
@@ -64,7 +107,13 @@ export function AppLayout() {
                   <Menu.Target>
                     <UnstyledButton aria-label="Account menu">
                       <Group gap={8} wrap="nowrap">
-                        <Avatar src={user.avatarUrl} name={user.name ?? user.email ?? '?'} color="initials" radius="xl" size={32} />
+                        <Avatar
+                          src={user.avatarUrl}
+                          name={user.name ?? user.email ?? "?"}
+                          color="initials"
+                          radius="xl"
+                          size={32}
+                        />
                         <IconChevronDown size={14} />
                       </Group>
                     </UnstyledButton>
@@ -78,10 +127,18 @@ export function AppLayout() {
                         {user.email}
                       </Text>
                     </Menu.Label>
-                    <Menu.Item leftSection={<IconDashboard size={16} />} component={Link} to="/dashboard">
+                    <Menu.Item
+                      leftSection={<IconDashboard size={16} />}
+                      component={Link}
+                      to="/dashboard"
+                    >
                       Dashboard
                     </Menu.Item>
-                    <Menu.Item leftSection={<IconUser size={16} />} component={Link} to="/profile">
+                    <Menu.Item
+                      leftSection={<IconUser size={16} />}
+                      component={Link}
+                      to="/profile"
+                    >
                       Profile
                     </Menu.Item>
                     <Menu.Divider />
@@ -90,7 +147,7 @@ export function AppLayout() {
                       leftSection={<IconLogout size={16} />}
                       onClick={async () => {
                         await logout();
-                        navigate('/');
+                        navigate("/");
                       }}
                     >
                       Sign out
@@ -123,7 +180,13 @@ export function AppLayout() {
         </Stack>
       </AppShell.Navbar>
 
-      <AppShell.Main style={{ display: 'flex', flexDirection: 'column', minHeight: '100dvh' }}>
+      <AppShell.Main
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "100dvh",
+        }}
+      >
         <Suspense fallback={null}>
           <div style={{ flex: 1 }}>
             <Outlet />
@@ -133,14 +196,14 @@ export function AppLayout() {
         <Container size="xl" py="lg" w="100%">
           <Group justify="space-between">
             <Text size="sm" c="dimmed">
-              © {new Date().getFullYear()} App Starter
+              © {new Date().getFullYear()} Aggrex
             </Text>
             <Group gap="md">
               {[
-                ['/about', 'About'],
-                ['/design-system', 'Design system'],
-                ['/llms.txt', 'llms.txt'],
-                ['/sitemap.xml', 'Sitemap'],
+                ["/about", "About"],
+                ["/design-system", "Design system"],
+                ["/llms.txt", "llms.txt"],
+                ["/sitemap.xml", "Sitemap"],
               ].map(([href, label]) => (
                 <Text key={href} component="a" href={href} size="sm" c="dimmed">
                   {label}
@@ -155,7 +218,13 @@ export function AppLayout() {
 }
 
 /** Standard page container. */
-export function Page({ children, size = 'xl' }: { children: React.ReactNode; size?: string }) {
+export function Page({
+  children,
+  size = "xl",
+}: {
+  children: React.ReactNode;
+  size?: string;
+}) {
   return (
     <Container size={size} py={40}>
       {children}

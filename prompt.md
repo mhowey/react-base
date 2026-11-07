@@ -59,12 +59,12 @@ You are extending an existing full-stack starter. **Reuse what exists. Do not re
 
 <!-- guidance: 2–4 sentences. What is it, who is it for, what problem does it solve, and what makes it different? -->
 
-- **App name:**
-- **One-line description:** (also used as the SEO site description)
-- **Tagline:**
-- **Production URL:**
-- **Problem it solves:**
-- **Primary success metric:** (e.g. weekly active teams, bookings per week)
+- **App name:** News Scraper Service
+- **One-line description:** A news aggregator service
+- **Tagline:** get the news you want, free!
+- **Production URL:** aggrex.netlify.app
+- **Problem it solves:** having a mixed source of multiple headlines categorized by left or right lean of the source.
+- **Primary success metric:** 2 regular users
 
 ### 2. Users & roles
 
@@ -73,179 +73,37 @@ You are extending an existing full-stack starter. **Reuse what exists. Do not re
 | Role | Who they are | What they can do | What they cannot do |
 |---|---|---|---|
 | Visitor (anonymous) | | | |
-| User | | | |
-| Admin | | | |
+| User | standard user| see news, build a custom news list, adjust other parameters of their news feeds. They can only create a limited number of modifications. Come up with a revenue model here | any admin function |
+| Admin | admin user| everything | |
 
 ### 3. Authentication
 
-- **Sign-in providers to enable:** ☐ Google ☐ Facebook ☐ GitHub ☐ Other: ______
-- **Who may sign up:** ☐ anyone ☐ invite-only ☐ specific email domains: ______
-- **Initial admins (`ADMIN_EMAILS`):**
-- **Onboarding after first sign-in:** (e.g. collect company name, accept terms)
-- **Account deletion / data export required?**
+- **Sign-in providers to enable:** ☐ Google ☐ Facebook ☐ GitHub
+______
+- **Who may sign up:** anyone
+______
+- **Initial admins (`ADMIN_EMAILS`):** howey.matt@gmail.com
+- **Onboarding after first sign-in:** collect user news feed preferences
+- **Account deletion / data export required?** no
 
 ### 4. Features
 
-<!-- guidance: One block per feature, in priority order. Acceptance criteria should be testable. Copy the block as many times as you need. -->
+High-level: Users will be able to view a customized newsfeed that has been scraped from the web. Use your knowledge to do a good job of choosing a wide variety of news article source from around the web. They should be ranked by their category of news as well as whether they tend to lean left or right. 
 
-#### F1. <Feature name>
-- **Priority:** Must / Should / Could
-- **User story:** As a <role>, I want <capability> so that <benefit>.
-- **Details / business rules:**
-  -
-- **Acceptance criteria:**
-  - [ ] Given …, when …, then …
-  - [ ]
-- **Pages / UI involved:**
-- **Data involved:** (tables from §5)
-- **Edge cases:**
 
-#### F2. <Feature name>
-- **Priority:**
-- **User story:**
-- **Details / business rules:**
-- **Acceptance criteria:**
-  - [ ]
 
 ### 5. Data model
 
-<!-- guidance:
-Describe each table in the Data Builder's format. The AI turns this into `schema/app-schema.json` and imports it.
-Field types: text, longtext, integer, number, boolean, date, datetime, email, url, select, json, relation
-Options: select → choices[]; relation → relationTable; text/longtext → min/max length; integer/number → min/max value
-readAccess: public | authenticated | admin       writeAccess: authenticated | owner | admin
-Every table automatically gets id, created_at, updated_at, created_by (the user who created the row).
--->
+Make the data model as needed to create the features.
 
-| Table | Purpose | readAccess | writeAccess | displayField |
-|---|---|---|---|---|
-| | | | | |
 
-**Fields for `<table_name>`**
+### 6. Design & branding
 
-| Field | Type | Required | Unique | Default | Options | Description |
-|---|---|---|---|---|---|---|
-| | | | | | | |
+Come up with a professional modern clean designed User Interface that a user will be delighted to use and makes using the feature so intuitive it's almost fun!
 
-<details>
-<summary>Example (delete when done)</summary>
+## Part 3 — Decision log
 
-| Table | Purpose | readAccess | writeAccess | displayField |
-|---|---|---|---|---|
-| `projects` | A team's project | authenticated | owner | name |
-| `tasks` | Work items in a project | authenticated | authenticated | title |
-
-**`tasks`**
-
-| Field | Type | Required | Unique | Default | Options | Description |
-|---|---|---|---|---|---|---|
-| title | text | ✓ | | | max 140 | Short summary |
-| status | select | ✓ | | `todo` | todo, doing, done | Workflow state |
-| due_on | date | | | | | |
-| project | relation | ✓ | | | → projects | Parent project |
-| assignee | relation | | | | → users | |
-
-Equivalent JSON (what the AI should produce):
-
-```json
-{
-  "tables": [
-    {
-      "name": "tasks", "label": "Tasks", "readAccess": "authenticated", "writeAccess": "authenticated", "displayField": "title",
-      "fields": [
-        { "name": "title", "type": "text", "required": true, "options": { "max": 140 } },
-        { "name": "status", "type": "select", "required": true, "defaultValue": "todo", "options": { "choices": ["todo", "doing", "done"] } },
-        { "name": "due_on", "type": "date" },
-        { "name": "project", "type": "relation", "required": true, "options": { "relationTable": "projects" } },
-        { "name": "assignee", "type": "relation", "options": { "relationTable": "users" } }
-      ]
-    }
-  ]
-}
-```
-</details>
-
-**Business rules the generic API cannot express** (these become custom server routes, triggers or tests):
--
-
-**Seed / demo data:**
--
-
-### 6. Pages & navigation
-
-<!-- guidance: Every page. "Public" pages are indexed and need SEO fields. -->
-
-| Route | Page name | Access (public / user / admin) | Purpose & main content | In nav? |
-|---|---|---|---|---|
-| `/` | Home | public | | |
-| | | | | |
-
-### 7. SEO & AI-search (AIO)
-
-- **Target keywords / topics:**
-- **Target audience search intent:** (what questions are people asking?)
-- **Organization details:** (legal name, logo, social profile URLs → `siteConfig.organization.sameAs`)
-- **Per public page:**
-
-| Route | Title (≤ 60 chars) | Meta description (≤ 155 chars) | Summary for AI engines (2–3 sentences, factual) | FAQ (Q → A) | schema.org type |
-|---|---|---|---|---|---|
-| `/` | | | | | WebPage |
-
-- **Dynamic public pages** (e.g. blog posts, product pages, public profiles), with their URL pattern and source table:
-- **AI crawler policy:** allow AI *search* bots ☐ yes ☐ no · allow AI *training* bots ☐ yes ☐ no
-- **Social share image:** (1200×630, replaces `public/og-image.svg`)
-
-### 8. Design & branding
-
-<!-- guidance: The AI will update tokens.ts and theme.ts and must not override styles one page at a time. -->
-
-- **Brand colours:** primary `#______`, accent `#______` (the AI generates the 10-step scales)
-- **Fonts:** heading ______ / body ______
-- **Corner style:** ☐ sharp ☐ soft (default) ☐ round
-- **Default colour scheme:** ☐ auto (default) ☐ light ☐ dark
-- **Logo:** (path, or "generate a simple SVG wordmark")
-- **Tone of voice for UI copy:**
-- **Reference sites / inspiration:**
-- **New shared components needed:**
-
-### 9. Integrations
-
-| Service | Purpose | Env vars needed | Notes |
-|---|---|---|---|
-| (e.g. Stripe) | payments | `STRIPE_SECRET_KEY` | |
-| (e.g. Resend) | transactional email | | |
-| (e.g. S3 / R2) | file uploads | | |
-
-### 10. Non-functional requirements
-
-- **Expected scale:** users ______, rows per table ______
-- **Performance:** (e.g. LCP < 2.5s on 4G, API p95 < 200ms)
-- **Accessibility:** WCAG 2.2 AA (default)
-- **Browsers / devices:**
-- **Internationalisation:** languages ______
-- **Privacy / compliance:** (GDPR, cookie consent, data retention)
-- **Hosting target:** (e.g. Fly.io, Render, VPS with a persistent volume for `data/`)
-- **Backups:** (e.g. nightly copy of the SQLite file / Litestream)
-- **Analytics / monitoring:**
-
-### 11. Out of scope
-
--
-
-### 12. Milestones
-
-<!-- guidance: Small, reviewable steps. The AI stops after each one. -->
-
-1. **Foundation:** branding (tokens, `siteConfig`), roles, `.env.example`, data model imported, seed data.
-2. **Core feature(s):** F1 …
-3. **Secondary features:** F2 …
-4. **SEO/AIO pass:** all public routes in `seoRoutes`, dynamic sources registered, `llms.txt` checked.
-5. **Hardening:** tests for business rules, empty/error states, mobile + dark-mode check, production build.
-
----
-
-## Part 3 — Decision log (the AI appends here)
-
-| Date | Decision / assumption | Reason | Revisit? |
-|---|---|---|---|
-| | | | |
+- **Milestone 1 scope:** Ship the public, responsive news reader first. It uses a curated set of publisher RSS feeds and links to original articles; it does not scrape article pages or republish full text.
+- **Editorial labels:** Initial lean labels are broad, source-level context (left through right), not per-story judgments or endorsements. They should be reviewed and made transparent before relying on them as a ranking signal.
+- **Deferred:** Account onboarding, saved/custom source lists, per-user preferences, and any paid tier are not part of this first milestone. Keep the core reader free; revisit monetization only after validating regular use.
+- **Hosting assumption:** The existing Express server is required for RSS aggregation. The listed Netlify URL must use a compatible server deployment or a serverless adapter; a static-only Netlify deployment will not run these API routes.

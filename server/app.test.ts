@@ -114,6 +114,15 @@ describe('schema builder + data API', () => {
     expect((await admin.post('/api/schema/tables').send({ name: 'Bad Name' })).status).toBe(400);
     expect((await admin.post('/api/schema/tables').send({ name: 't', fields: [{ name: 'id', type: 'text' }] })).status).toBe(400);
   });
+
+  it('allows admins to delete tables and rejects non-admin deletion', async () => {
+    const admin = await login('admin@example.com');
+    const user = await login('user@example.com');
+    expect((await admin.post('/api/schema/tables').send({ name: 'temporary_table' })).status).toBe(201);
+    expect((await user.delete('/api/schema/tables/temporary_table')).status).toBe(403);
+    expect((await admin.delete('/api/schema/tables/temporary_table')).status).toBe(204);
+    expect((await admin.get('/api/schema/tables/temporary_table')).status).toBe(404);
+  });
 });
 
 describe('SEO / AIO endpoints', () => {

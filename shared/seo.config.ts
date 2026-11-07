@@ -36,17 +36,16 @@ export interface SeoRoute {
 }
 
 export const siteConfig = {
-  name: 'App Starter',
-  tagline: 'A production-ready foundation for full-stack React apps',
-  description:
-    'App Starter is a full-stack React foundation with a design system, social sign-in, SEO and AI-search optimization, and a SQLite schema builder.',
+  name: 'Aggrex',
+  tagline: 'Get the news you want, free.',
+  description: 'A clearer daily news feed, bringing reporting from across the editorial spectrum together in one place.',
   locale: 'en_US',
   language: 'en',
   twitterHandle: '@appstarter',
   defaultOgImage: '/og-image.svg',
   themeColor: '#4f46e5',
   organization: {
-    name: 'App Starter',
+    name: 'Aggrex',
     logo: '/logo.svg',
     sameAs: [] as string[],
   },
@@ -67,24 +66,20 @@ export const siteConfig = {
 
 export const homeFaq: FaqItem[] = [
   {
-    question: 'What is App Starter?',
-    answer:
-      'App Starter is a template for building full-stack React applications. It ships with a Mantine-based design system, OAuth sign-in (Google, Facebook, GitHub), SEO and AI-search optimization, and a SQLite backend with a visual table builder.',
+    question: 'What is Aggrex?',
+    answer: 'Aggrex brings headlines from multiple news sources together, with topic and source-perspective labels to help readers explore a wider range of reporting.',
   },
   {
-    question: 'Which sign-in providers are supported?',
-    answer:
-      'Google, Facebook and GitHub are built in. Any Passport.js strategy can be added by registering it in server/auth/providers.ts. A passwordless dev login is available in development.',
+    question: 'How are source perspective labels chosen?',
+    answer: 'Labels are broad editorial descriptions of a publication, not ratings of individual stories. They are intended as context, can be imperfect, and should not replace reading and comparing the reporting.',
   },
   {
-    question: 'How does App Starter optimize for AI search engines?',
-    answer:
-      'Every public page is served with server-rendered meta tags, JSON-LD structured data and a readable content fallback. The server also publishes /llms.txt and /llms-full.txt and a robots.txt with a configurable policy for AI search and training crawlers.',
+    question: 'Where do the headlines come from?',
+    answer: 'The first release reads publicly available RSS feeds and links readers to the original publishers. Aggrex does not republish full articles.',
   },
   {
-    question: 'Can I define my own database tables?',
-    answer:
-      'Yes. Admins can create tables and typed fields in the Data Builder UI. Each table immediately gets a validated REST API, an admin data browser and generated TypeScript types.',
+    question: 'Is Aggrex free?',
+    answer: 'The core news reading experience is free. Personalized feed controls are planned for a later release.',
   },
 ];
 
@@ -93,23 +88,21 @@ export const seoRoutes: SeoRoute[] = [
     path: '/',
     title: `${siteConfig.name} — ${siteConfig.tagline}`,
     description: siteConfig.description,
-    keywords: ['react starter', 'full-stack template', 'design system', 'oauth', 'sqlite', 'seo', 'ai search'],
+    keywords: ['news aggregator', 'news headlines', 'balanced news', 'current affairs'],
     schemaType: 'WebPage',
     changefreq: 'weekly',
     priority: 1,
-    summary:
-      'Landing page describing the four pillars of App Starter: a themeable design system, third-party authentication, SEO/AIO tooling and a SQLite data builder.',
+    summary: 'A live news roundup that brings together recent headlines from a range of publishers, with filters for topic and broad editorial perspective.',
     faq: homeFaq,
   },
   {
     path: '/about',
     title: `About — ${siteConfig.name}`,
-    description: 'Learn how App Starter is structured and how to extend it into a full application.',
+    description: 'Learn how Aggrex gathers headlines and uses source labels to make exploring different reporting easier.',
     schemaType: 'AboutPage',
     changefreq: 'monthly',
     priority: 0.7,
-    summary:
-      'Explains the project architecture (React + Vite client, Express + SQLite server, shared config) and the recommended workflow for turning the starter into a product.',
+    summary: 'Aggrex is a free news aggregator that links to original reporting and gives readers topic and source-perspective filters.',
   },
   {
     path: '/design-system',

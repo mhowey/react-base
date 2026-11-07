@@ -11,9 +11,15 @@ import type { DB } from './db';
 import { errorHandler, notFound } from './errors';
 import { SchemaService } from './schema/service';
 import { seoRouter } from './seo';
+import { NewsService, newsRouter } from './news';
+import { newsPreferencesRouter } from './news-preferences';
 
 /** Builds the Express app (API + SEO endpoints). HTML serving is added in index.ts. */
-export function createApp(db: DB, config: AppConfig = defaultConfig): { app: Express; schema: SchemaService; data: DataService } {
+export function createApp(
+  db: DB,
+  config: AppConfig = defaultConfig,
+  options: { fetcher?: typeof fetch } = {},
+): { app: Express; schema: SchemaService; data: DataService } {
   const app = express();
   const schema = new SchemaService(db);
   const data = new DataService(db, schema);
@@ -47,6 +53,8 @@ export function createApp(db: DB, config: AppConfig = defaultConfig): { app: Exp
   app.use('/api/schema', schemaRouter(schema));
   app.use('/api/data', dataRouter(data, schema));
   app.use('/api/users', usersRouter(db));
+  app.use('/api/news', newsRouter(new NewsService(options.fetcher)));
+  app.use('/api/news/preferences', newsPreferencesRouter(db));
   app.use('/api', (_req, _res, next) => next(notFound('API route not found')));
   app.use(seoRouter(config.appUrl));
   app.use('/api', errorHandler);

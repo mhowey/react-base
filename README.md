@@ -4,6 +4,11 @@ AGGREX is built on the React Base full-stack app starter. The local checkout is
 `/Users/matthowey/projects/ai/react-base`; the directory and package name remain
 `react-base`.
 
+On the headlines page, use the copy icon on a story to copy its source URL.
+The Remove Paywall button opens the third-party website in a new tab; paste a
+copied URL there if desired. The introduction banner can be closed for the
+current visit.
+
 ## Local setup and sanity checks
 
 Use npm with the committed `package-lock.json` (no Yarn lockfile is maintained).

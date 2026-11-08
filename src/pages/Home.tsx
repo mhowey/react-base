@@ -22,11 +22,13 @@ import {
 import {
   IconAdjustments,
   IconArrowUpRight,
+  IconCopy,
   IconHeart,
   IconHeartFilled,
   IconRefresh,
   IconSearch,
   IconWorld,
+  IconX,
 } from "@tabler/icons-react";
 import { notifications } from "@mantine/notifications";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -199,6 +201,7 @@ export default function Home() {
   const [search, setSearch] = useState("");
   const [searchInput, setSearchInput] = useState("");
   const [favoritesOnly, setFavoritesOnly] = useState(false);
+  const [bannerVisible, setBannerVisible] = useState(true);
   const favoriteQueryKey = ["news-preferences", "favorites", user?.id] as const;
   const favorites = useQuery({
     queryKey: favoriteQueryKey,
@@ -271,6 +274,26 @@ export default function Home() {
     favoriteMutation.mutate([...next]);
   };
 
+  const copyArticleUrl = async (url: string) => {
+    try {
+      if (!navigator.clipboard?.writeText) {
+        throw new Error("Clipboard access is unavailable in this browser.");
+      }
+      await navigator.clipboard.writeText(url);
+      notifications.show({
+        title: "Link copied",
+        message: "The article URL has been copied to your clipboard.",
+        color: "success",
+      });
+    } catch (error) {
+      notifications.show({
+        title: "Could not copy link",
+        message: `${errorMessage(error)} You can copy the URL from the source link instead.`,
+        color: "danger",
+      });
+    }
+  };
+
   return (
     <Container size="xl" py={{ base: "lg", md: "xl" }}>
       <Paper
@@ -280,9 +303,21 @@ export default function Home() {
         style={{
           background: "var(--app-hero-gradient)",
           color: "white",
+          display: bannerVisible ? undefined : "none",
           overflow: "hidden",
         }}
       >
+        <Group justify="flex-end" mb="sm">
+          <ActionIcon
+            variant="transparent"
+            color="white"
+            aria-label="Close introduction"
+            title="Close introduction"
+            onClick={() => setBannerVisible(false)}
+          >
+            <IconX size={20} />
+          </ActionIcon>
+        </Group>
         <SimpleGrid
           cols={{ base: 1, md: 2 }}
           spacing="xl"
@@ -373,33 +408,45 @@ export default function Home() {
           </Tooltip>
         </Group>
 
-        <Group mb="md" gap="sm">
-          {user ? (
-            <Button
-              variant={favoritesOnly ? "filled" : "default"}
-              leftSection={<IconHeart size={16} />}
-              onClick={() => setFavoritesOnly((current) => !current)}
-              disabled={favorites.isLoading || favoriteIds.length === 0}
-            >
-              {favoritesOnly
-                ? "Showing my sources"
-                : `My sources (${favoriteIds.length})`}
-            </Button>
-          ) : (
-            <Button
-              component={Link}
-              to="/login?returnTo=%2F"
-              variant="default"
-              leftSection={<IconHeart size={16} />}
-            >
-              Sign in to save sources
-            </Button>
-          )}
-          {favoritesOnly && (
-            <Text size="sm" c="dimmed">
-              Showing stories from your favorite publishers.
-            </Text>
-          )}
+        <Group mb="md" gap="sm" justify="space-between">
+          <Group gap="sm">
+            {user ? (
+              <Button
+                variant={favoritesOnly ? "filled" : "default"}
+                leftSection={<IconHeart size={16} />}
+                onClick={() => setFavoritesOnly((current) => !current)}
+                disabled={favorites.isLoading || favoriteIds.length === 0}
+              >
+                {favoritesOnly
+                  ? "Showing my sources"
+                  : `My sources (${favoriteIds.length})`}
+              </Button>
+            ) : (
+              <Button
+                component={Link}
+                to="/login?returnTo=%2F"
+                variant="default"
+                leftSection={<IconHeart size={16} />}
+              >
+                Sign in to save sources
+              </Button>
+            )}
+            {favoritesOnly && (
+              <Text size="sm" c="dimmed">
+                Showing stories from your favorite publishers.
+              </Text>
+            )}
+          </Group>
+          <Button
+            component="a"
+            href="https://removepaywall.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            variant="default"
+            rightSection={<IconArrowUpRight size={16} />}
+          >
+            Remove Paywall
+          </Button>
         </Group>
 
         <Card mb="lg" p="md">
@@ -684,17 +731,30 @@ export default function Home() {
                       onToggle={() => toggleFavorite(article.source.id)}
                     />
                   </Group>
-                  <Button
-                    component="a"
-                    href={article.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    variant="subtle"
-                    size="compact-sm"
-                    rightSection={<IconArrowUpRight size={15} />}
-                  >
-                    Read source
-                  </Button>
+                  <Group gap="xs" wrap="nowrap">
+                    <Tooltip label="Copy article URL">
+                      <ActionIcon
+                        variant="subtle"
+                        color="gray"
+                        aria-label={`Copy URL for ${article.title}`}
+                        title="Copy article URL"
+                        onClick={() => void copyArticleUrl(article.url)}
+                      >
+                        <IconCopy size={17} />
+                      </ActionIcon>
+                    </Tooltip>
+                    <Button
+                      component="a"
+                      href={article.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      variant="subtle"
+                      size="compact-sm"
+                      rightSection={<IconArrowUpRight size={15} />}
+                    >
+                      Read source
+                    </Button>
+                  </Group>
                 </Group>
               </Card>
             ))}

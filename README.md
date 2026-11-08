@@ -1,4 +1,26 @@
-# React Base — full-stack app starter
+# AGGREX — news aggregator
+
+AGGREX is built on the React Base full-stack app starter. The local checkout is
+`/Users/matthowey/projects/ai/react-base`; the directory and package name remain
+`react-base`.
+
+## Local setup and sanity checks
+
+Use npm with the committed `package-lock.json` (no Yarn lockfile is maintained).
+From the local checkout, install the locked dependencies and build both the client
+and server:
+
+```bash
+cd "/Users/matthowey/projects/ai/react-base"
+npm ci
+npm run build
+```
+
+The build writes `dist/client` and `dist/server/index.js`. For additional checks,
+run `npm run typecheck` and `npm test`. The build alone does not verify runtime
+configuration or live news feeds.
+
+## Starter foundation
 
 A foundation for building full React applications. It includes:
 

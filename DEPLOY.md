@@ -10,7 +10,7 @@ Everything is scripted in [`deploy/`](deploy/):
 
 | File | Purpose |
 |---|---|
-| `setup-server.sh` | One-time bootstrap. Installs Node 22, Caddy, swap and the firewall, builds the app, and installs the systemd service, Caddy config and nightly backups. Safe to re-run. |
+| `setup-server.sh` | One-time bootstrap. Installs Node 24, Caddy, swap and the firewall, builds the app, and installs the systemd service, Caddy config and nightly backups. Safe to re-run. |
 | `deploy.sh` | Updates the app: backs up the DB, pulls, runs `npm ci`, builds, restarts and health-checks. Installed as `react-base-deploy`. |
 | `backup.sh` | Takes a consistent online SQLite backup and keeps 14 days. Installed as `react-base-backup` and runs every night at 03:17. |
 | `react-base.service` | systemd unit with sandboxing. The app can only write to `/var/lib/react-base`. |

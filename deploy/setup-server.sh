@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # One-time bootstrap of a fresh Ubuntu 22.04/24.04 or Debian 12 VPS (e.g. CloudCone).
-# Installs Node.js 22, Caddy (automatic HTTPS), clones + builds the app, and runs it under systemd.
+# Installs Node.js 24, Caddy (automatic HTTPS), clones + builds the app, and runs it under systemd.
 # Safe to re-run: every step is idempotent and an existing .env is never overwritten.
 #
 # Usage (as root):
@@ -43,9 +43,9 @@ if [ "$(swapon --noheadings | wc -l)" -eq 0 ] && [ "$(awk '/MemTotal/ {print $2}
   grep -q '^/swapfile' /etc/fstab || echo '/swapfile none swap sw 0 0' >> /etc/fstab
 fi
 
-log "Installing Node.js 22"
-if ! node -v 2>/dev/null | grep -Eq '^v(2[2-9]|[3-9][0-9])\.'; then
-  curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
+log "Installing Node.js 24"
+if ! node -v 2>/dev/null | grep -Eq '^v24\.'; then
+  curl -fsSL https://deb.nodesource.com/setup_24.x | bash -
   apt-get install -y nodejs
 fi
 node -v

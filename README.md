@@ -42,7 +42,19 @@ Dev and production each run as **one process on one port**. In development, Vite
 
 ## Quick start
 
-Requires Node 22.12 or newer supported by the installed dependencies; Node 24 LTS is recommended.
+Requires Node 22.12+, 24.x, or 26+ (matching Vitest's supported runtimes).
+Node 24 LTS is recommended and selected by `.nvmrc`. With nvm installed:
+
+```bash
+nvm install
+nvm use
+```
+
+Use the same Node version for installation, tests, builds, and the production
+service. `npm ci` rejects unsupported versions, and the dev/build/start/test
+commands check the runtime before loading native modules. Node 20 is unsupported
+and can cause `better-sqlite3` to segfault rather than report a JavaScript error.
+After switching Node versions, run `npm ci` again.
 
 ```bash
 npm install

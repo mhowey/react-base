@@ -1,0 +1,25 @@
+[Unit]
+Description=Aggrex news aggregator
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=aggrex
+Group=aggrex
+WorkingDirectory=/opt/aggrex
+EnvironmentFile=/etc/aggrex/aggrex.env
+ExecStart=/usr/bin/node /opt/aggrex/dist/server/index.js
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=30
+UMask=0077
+StateDirectory=aggrex
+StateDirectoryMode=0700
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+
+[Install]
+WantedBy=multi-user.target

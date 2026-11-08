@@ -48,6 +48,6 @@ if (config.isProd) {
   });
 }
 
-app.listen(config.port, () => {
-  console.log(`\n  ➜  App running at ${config.appUrl}  (${config.env})\n`);
+app.listen(config.port, config.host, () => {
+  console.log(`\n  ➜  App listening on ${config.host}:${config.port}; public URL ${config.appUrl}  (${config.env})\n`);
 });

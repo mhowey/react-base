@@ -56,7 +56,7 @@ export function setUserRole(db: DB, id: number, role: 'user' | 'admin'): AppUser
  *  1. Known identity            → that user
  *  2. Unknown identity, email matches an existing user → link identity to them
  *  3. Otherwise                 → create user
- * Role: ADMIN_EMAILS are always admin; if there are no users yet, the first becomes admin.
+ * Role: ADMIN_EMAILS are always admin; the first user becomes admin only when the list is empty.
  */
 export function upsertExternalUser(db: DB, p: ExternalProfile, adminEmails: string[]): AppUser {
   return db.transaction(() => {
@@ -71,7 +71,7 @@ export function upsertExternalUser(db: DB, p: ExternalProfile, adminEmails: stri
     }
     if (!userId) {
       const isFirst = (db.prepare('SELECT COUNT(*) FROM users').pluck().get() as number) === 0;
-      const role = isFirst || (email && adminEmails.includes(email)) ? 'admin' : 'user';
+      const role = (isFirst && adminEmails.length === 0) || (email && adminEmails.includes(email)) ? 'admin' : 'user';
       userId = Number(
         db
           .prepare('INSERT INTO users (email, name, avatar_url, role) VALUES (?, ?, ?, ?)')

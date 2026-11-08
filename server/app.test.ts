@@ -16,7 +16,7 @@ async function login(email: string) {
 
 beforeEach(() => {
   db = openDatabase(':memory:');
-  app = createApp(db, { ...config, devLogin: true }).app;
+  app = createApp(db, { ...config, devLogin: true, adminEmails: [] }).app;
 });
 
 describe('auth', () => {
@@ -27,6 +27,15 @@ describe('auth', () => {
     expect((await b.get('/api/auth/me')).body.user.role).toBe('user');
     expect((await b.get('/api/schema/tables')).status).toBe(403);
     expect((await request(app).get('/api/schema/tables')).status).toBe(401);
+  });
+
+  it('only assigns initial admin access to configured emails when an allowlist is set', async () => {
+    app = createApp(db, { ...config, devLogin: true, adminEmails: ['admin@example.com'] }).app;
+    const first = await login('someone@example.com');
+    expect((await first.get('/api/auth/me')).body.user.role).toBe('user');
+    expect((await first.get('/api/schema/tables')).status).toBe(403);
+    const admin = await login('admin@example.com');
+    expect((await admin.get('/api/auth/me')).body.user.role).toBe('admin');
   });
 });
 
@@ -98,7 +107,7 @@ describe('schema builder + data API', () => {
     // export → import into a fresh database round-trips
     const exported = (await admin.get('/api/schema/export')).body;
     const db2 = openDatabase(':memory:');
-    const app2 = createApp(db2, { ...config, devLogin: true }).app;
+    const app2 = createApp(db2, { ...config, devLogin: true, adminEmails: [] }).app;
     const admin2 = request.agent(app2);
     await admin2.post('/api/auth/dev-login').send({ email: 'a@b.co' });
     const imported = await admin2.post('/api/schema/import').send(exported);

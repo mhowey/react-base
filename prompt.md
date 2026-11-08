@@ -62,7 +62,7 @@ You are extending an existing full-stack starter. **Reuse what exists. Do not re
 - **App name:** News Scraper Service
 - **One-line description:** A news aggregator service
 - **Tagline:** get the news you want, free!
-- **Production URL:** aggrex.netlify.app
+- **Production URL:** https://aggrex.howeyhost.com
 - **Problem it solves:** having a mixed source of multiple headlines categorized by left or right lean of the source.
 - **Primary success metric:** 2 regular users
 
@@ -106,4 +106,4 @@ Come up with a professional modern clean designed User Interface that a user wil
 - **Milestone 1 scope:** Ship the public, responsive news reader first. It uses a curated set of publisher RSS feeds and links to original articles; it does not scrape article pages or republish full text.
 - **Editorial labels:** Initial lean labels are broad, source-level context (left through right), not per-story judgments or endorsements. They should be reviewed and made transparent before relying on them as a ranking signal.
 - **Deferred:** Account onboarding, saved/custom source lists, per-user preferences, and any paid tier are not part of this first milestone. Keep the core reader free; revisit monetization only after validating regular use.
-- **Hosting assumption:** The existing Express server is required for RSS aggregation. The listed Netlify URL must use a compatible server deployment or a serverless adapter; a static-only Netlify deployment will not run these API routes.
+- **Hosting assumption:** The existing Express server runs on a CloudCone VPS behind Nginx at aggrex.howeyhost.com; SQLite must be stored on persistent disk and backed up.

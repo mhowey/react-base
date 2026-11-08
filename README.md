@@ -42,7 +42,7 @@ Dev and production each run as **one process on one port**. In development, Vite
 
 ## Quick start
 
-Requires Node 20 or newer.
+Requires Node 22.12 or newer supported by the installed dependencies; Node 24 LTS is recommended.
 
 ```bash
 npm install
@@ -168,6 +168,10 @@ Responses deserialize booleans and JSON. Validation errors return `400` with per
 
 ## Production
 
+For deployment to **aggrex.howeyhost.com** on a CloudCone VPS, see the
+[VPS deployment guide](deploy/README.md). It covers DNS, Nginx, HTTPS, systemd,
+OAuth, and persistent SQLite backups.
+
 ```bash
 npm run build
 ```
@@ -178,7 +182,7 @@ NODE_ENV=production APP_URL=https://your.domain JWT_SECRET=... COOKIE_SECRET=...
 
 - Put `DATABASE_PATH` on a persistent volume and back it up (for example with Litestream).
 - Run behind HTTPS. Cookies are `Secure` in production and `trust proxy` is enabled.
-- The dev login is off in production unless `ENABLE_DEV_LOGIN=true`. Don't turn it on.
+- The dev login is always disabled in production, even if `ENABLE_DEV_LOGIN=true`.
 - Helmet sets a strict CSP in production. If you add third-party scripts or APIs, update it in `server/app.ts`.
 
 ## Building your app

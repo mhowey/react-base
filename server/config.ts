@@ -16,6 +16,8 @@ export const config = {
   isProd,
   isTest: env === 'test',
   port,
+  /** Bind to loopback in production; the HTTPS reverse proxy is the public entry point. */
+  host: process.env.HOST ?? (isProd ? '127.0.0.1' : '0.0.0.0'),
   /** Public origin of the app; used for OAuth callbacks, canonical URLs, sitemap. */
   appUrl: (process.env.APP_URL ?? `http://localhost:${port}`).replace(/\/$/, ''),
   dbPath: process.env.DATABASE_PATH ?? 'data/app.db',
@@ -28,7 +30,7 @@ export const config = {
     .map((s) => s.trim().toLowerCase())
     .filter(Boolean),
   /** Passwordless "dev login" for local work. Never enable in production. */
-  devLogin: process.env.ENABLE_DEV_LOGIN ? process.env.ENABLE_DEV_LOGIN === 'true' : !isProd,
+  devLogin: !isProd && (process.env.ENABLE_DEV_LOGIN ? process.env.ENABLE_DEV_LOGIN === 'true' : true),
 };
 
 export type AppConfig = typeof config;

@@ -1,5 +1,8 @@
 # Deploy Aggrex to a CloudCone VPS
 
+For AlmaLinux with existing Apache and HTTPS, follow
+[ALMALINUX.md](ALMALINUX.md) instead of the Ubuntu/Nginx steps below.
+
 This guide assumes an Ubuntu/Debian VPS with systemd, a sudo-capable deployment
 user, and the repository available via Git. It installs the existing Express
 application behind Nginx; Netlify is not needed. Adjust the steps for another

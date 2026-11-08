@@ -1,5 +1,9 @@
 # Deploying to a CloudCone VPS
 
+**AlmaLinux with existing Apache:** use
+[`deploy/ALMALINUX.md`](deploy/ALMALINUX.md). The bootstrap below supports
+Debian/Ubuntu only and is not suitable for the shared AlmaLinux host.
+
 This sets up the app on a single VPS:
 
 ```
